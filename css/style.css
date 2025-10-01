@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap');
+
+:root {
+    --bg-color: #121212;
+    --surface-color: #1e1e1e;
+    --primary-color: #1DB954;
+    --text-primary: #FFFFFF;
+    --text-secondary: #b3b3b3;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --aurora1: #D4145A;
+    --aurora2: #FBB03B;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Manrope', sans-serif;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    height: 100vh;
+    max-height: 850px;
+    background-color: transparent;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px var(--shadow-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.player {
+    background-color: var(--surface-color);
+    position: relative;
+    z-index: 2;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.player-header span {
+    font-weight: 700;
+}
+
+.album-art-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.album-art {
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 1 / 1;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    object-fit: cover;
+}
+
+.song-details {
+    text-align: center;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+#title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+#artist {
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.progress-container {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.progress {
+    background-color: var(--primary-color);
+    width: 0%;
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.1s linear;
+}
+
+.duration-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.player-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 28px;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    color: var(--text-primary);
+}
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-btn-big {
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    font-size: 36px;
+}
+
+.action-btn-big:hover {
+    filter: brightness(1.1);
+}
+
+.action-btn.active {
+    color: var(--primary-color);
+}
+
+#visualizer {
+    width: 100%;
+    height: 60px;
+    margin: 10px 0;
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+    font-size: 20px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    background: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 4px;
+    border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background-color: var(--text-primary);
+    border-radius: 50%;
+    margin-top: -6px;
+}
+
+.playlist-panel, .settings-panel {
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background-color: var(--surface-color);
+    z-index: 10;
+    transition: right 0.4s ease-in-out;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-panel.show, .settings-panel.show {
+    right: 0;
+}
+
+.playlist-header, .settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+#playlist {
+    list-style: none;
+    overflow-y: auto;
+}
+
+#playlist li {
+    padding: 15px 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#playlist li:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.setting-option {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.setting-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.setting-option.active {
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* --- Animated Background Styles --- */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.7s ease-in-out;
+}
+
+.background-container.active {
+    opacity: 1;
+}
+
+#album-art-bg {
+    background-size: cover;
+    background-position: center;
+    filter: blur(30px) brightness(0.6);
+    transform: scale(1.2);
+    transition: background-image 0.7s ease-in-out;
+}
+
+#aurora-bg {
+    background: linear-gradient(45deg, var(--aurora1), var(--aurora2));
+    background-size: 200% 200%;
+    animation: aurora-flow 15s ease infinite;
+}
+
+@keyframes aurora-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#vinyl-bg {
+    background-color: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#vinyl-svg {
+    width: 150vmax;
+    height: 150vmax;
+    animation: vinyl-spin 30s linear infinite;
+    animation-play-state: paused;
+}
+#vinyl-svg.playing {
+    animation-play-state: running;
+}
+@keyframes vinyl-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+  .footer {
+            position: absolute; /* Positions it relative to the whole page */
+            bottom: 2rem;       /* 2rem from the bottom */
+            left: 50%;          /* Moves the start to the middle */
+            transform: translateX(-50%); /* Pulls it back by half its own width to perfectly center it */
+            z-index: 2;         /* Ensures it's on top of the 3D background */
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 300;
+            opacity: 0.5;       /* Makes it subtle */
+        }
